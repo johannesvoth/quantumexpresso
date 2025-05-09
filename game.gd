@@ -34,8 +34,9 @@ func _process(delta):
 # Callback from SceneTree.
 func _player_connected(id):
 	# Registration of a client beings here, tell the connected player that we are here.
-	register_player.rpc_id(id, player_name)
+	#register_player.rpc_id(id, player_name)
 	
+	print("player connected callback, adding player..")
 	add_player(id)
 
 
@@ -66,15 +67,6 @@ func _server_disconnected():
 func _connected_fail():
 	multiplayer.set_network_peer(null) # Remove peer
 	connection_failed.emit()
-
-
-# Lobby management functions.
-@rpc("any_peer")
-func register_player(new_player_name):
-	print("registered player")
-	var id = multiplayer.get_remote_sender_id()
-	players[id] = new_player_name
-	player_list_changed.emit()
 
 
 func unregister_player(id):
@@ -138,8 +130,7 @@ func _on_lobby_joined(lobby: int, permissions: int, locked: bool, response: int)
 		if id != Steam.getSteamID():
 			connect_socket(id)
 	else:
-		# Get the failure reason
-		var FAIL_REASON: String
+		var FAIL_REASON: String # Get the failure reason
 		match response:
 			2:  FAIL_REASON = "This lobby no longer exists."
 			3:  FAIL_REASON = "You don't have permission to join this lobby."
@@ -158,8 +149,11 @@ func create_socket():
 	peer = SteamMultiplayerPeer.new()
 	# Example of peer config
 	#peer.set_config(SteamPeerConfig.NETWORKING_CONFIG_SEND_BUFFER_SIZE, 524288)
-	peer.create_host(0)
+	peer.create_host(1)
 	multiplayer.set_multiplayer_peer(peer)
+	
+	
+	add_player(1)
 
 
 func connect_socket(steam_id : int):
@@ -168,6 +162,9 @@ func connect_socket(steam_id : int):
 	# peer.set_config(SteamPeerConfig.NETWORKING_CONFIG_SEND_BUFFER_SIZE, 524288)
 	peer.create_client(steam_id, 0)
 	multiplayer.set_multiplayer_peer(peer)
+	
+	add_player(peer.get_unique_id())
+	print("connect_socket.")
 
 
 func _on_host_steam_game_pressed() -> void:
