@@ -35,6 +35,8 @@ func _process(delta):
 func _player_connected(id):
 	# Registration of a client beings here, tell the connected player that we are here.
 	register_player.rpc_id(id, player_name)
+	
+	add_player(id)
 
 
 # Callback from SceneTree.
@@ -69,6 +71,7 @@ func _connected_fail():
 # Lobby management functions.
 @rpc("any_peer")
 func register_player(new_player_name):
+	print("registered player")
 	var id = multiplayer.get_remote_sender_id()
 	players[id] = new_player_name
 	player_list_changed.emit()
@@ -92,47 +95,12 @@ func load_world():
 		world.get_node("Score").add_player(pn, players[pn])
 	get_tree().set_pause(false) # Unpause and unleash the game!
 
-
-
-
-
-func join_game(lobby_id, new_player_name):
-	player_name = new_player_name
-	Steam.joinLobby(int(lobby_id))
-
-
 func get_player_list():
 	return players.values()
 
 
 func get_player_name():
 	return player_name
-
-
-func begin_game():
-	assert(multiplayer.is_server())
-	load_world.rpc()
-
-	var world = get_tree().get_root().get_node("World")
-	var player_scene = load("res://player.tscn")
-
-	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
-	var spawn_points = {}
-	spawn_points[1] = 0 # Server in spawn point 0.
-	var spawn_point_idx = 1
-	for p in players:
-		spawn_points[p] = spawn_point_idx
-		spawn_point_idx += 1
-
-	for p_id in spawn_points:
-		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
-		var player = player_scene.instantiate()
-		player.global_position = spawn_pos
-		player.name = str(p_id)
-		player.set_multiplayer_authority(p_id)
-		player.set_player_name(player_name if p_id == multiplayer.get_unique_id() else players[p_id])
-		world.get_node("Players").add_child(player)
-
 
 func end_game():
 	if has_node("/root/World"): # Game is in progress.
@@ -205,3 +173,17 @@ func connect_socket(steam_id : int):
 func _on_host_steam_game_pressed() -> void:
 	player_name = "TEMP PLAYER NAME"
 	Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, MAX_PEERS)
+
+@onready var steam_id_field: TextEdit = $ExpressoUI/SteamIdField
+
+func _on_join_steam_game_pressed() -> void:
+	player_name = "SOME JOINING DUDE"
+	Steam.joinLobby(int(steam_id_field.text))
+
+
+@onready var player_spawner: MultiplayerSpawner = $PlayerSpawner
+const PLAYER = preload("res://player/player.tscn")
+func add_player(p_id): # just done it here instead of giving the player spawner a dedicated script. Might move this in the future.
+	var player = PLAYER.instantiate()
+	player.name = str(p_id)
+	player_spawner.add_child(player, true)

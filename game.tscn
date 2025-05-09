@@ -39,4 +39,21 @@ offset_right = 442.0
 offset_bottom = 78.0
 text = "hostSteam"
 
+[node name="SteamIdField" type="TextEdit" parent="ExpressoUI"]
+layout_mode = 0
+offset_left = 237.0
+offset_top = 178.0
+offset_right = 553.0
+offset_bottom = 234.0
+placeholder_text = "1383685...."
+
+[node name="JoinSteamGame" type="Button" parent="ExpressoUI"]
+layout_mode = 0
+offset_left = 349.0
+offset_top = 244.0
+offset_right = 481.0
+offset_bottom = 275.0
+text = "JoinSteamGame via ID"
+
 [connection signal="pressed" from="ExpressoUI/HostSteamGame" to="." method="_on_host_steam_game_pressed"]
+[connection signal="pressed" from="ExpressoUI/JoinSteamGame" to="." method="_on_join_steam_game_pressed"]
