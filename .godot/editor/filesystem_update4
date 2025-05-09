@@ -1,0 +1,6 @@
+res://game.tscn
+res://player/player.tscn
+res://ui/multiplayer_ui.tscn
+res://world/world.tscn
+res://bucket.tscn
+res://game.gd

@@ -1,0 +1,29 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1746818768
+bucket.gd::GDScript/GDScript::7285468118884514807::1746797350::0::1::::<>Node2D<><>0<>0<><>::
+bucket.tscn::PackedScene::7674568807517280327::1746818729::0::1::::<><><>0<>0<><>::uid://bw7v4v20g3ml5::::res://icon.svg<>uid://db2euinpfxwo2::::res://bucket.gd
+export_presets.cfg::TextFile/TextFile::-1::1746817526::0::1::::<><><>0<>0<><>::
+game.gd::GDScript::5480454860878232538::1746818666::0::1::::<>Node2D<><>0<>0<><>::
+game.tscn::PackedScene::4237551226831803071::1746818729::0::1::::<><><>0<>0<><>::uid://dox5423r4l3pb::::res://other/steam.gd<>uid://ckc1j5hy6m2gs::::res://game.gd<>uid://75efyn1wxwpt::::res://ui/multiplayer_ui.tscn<>uid://bol1tu2w36k4e::::res://world_spawner.gd
+icon.svg::CompressedTexture2D/CompressedTexture2D::3997963322576154724::1746562160::1746562166::1::::<><><>0<>0<>8914c49108c5bac31f0221816873858d<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
+world_spawner.gd::GDScript/GDScript::3393386315031282878::1746803470::0::1::::<>MultiplayerSpawner<><>0<>0<><>::
+::res://addons/::1746818453
+::res://addons/steam-multiplayer-peer/::1746818453
+README.md::TextFile/TextFile::-1::1746818427::0::1::::<><><>0<>0<><>::
+steam-multiplayer-peer.gdextension::GDExtension/GDExtension::3750470731693996938::1746818427::0::1::::<><><>0<>0<><>::
+::res://addons/steam-multiplayer-peer/linux/::1746818427
+::res://addons/steam-multiplayer-peer/macos/::1746818427
+::res://addons/steam-multiplayer-peer/windows/::1746818427
+::res://other/::1746818688
+Events.gd::GDScript/GDScript::4731433029123613744::1746786970::0::1::::<>Node<><>0<>0<><>::
+steam.gd::GDScript::8191261310357966007::1746818688::0::1::::<>Node<><>0<>0<><>::
+::res://player/::1746818729
+Bat-all-animations-96x96-each row is a different animation-from top to bottom-Idle-walk-walk to atk transition-atk instance-atk-hurt-death.png::CompressedTexture2D/CompressedTexture2D::4442116167829847356::1746615245::1746615246::1::::<><><>0<>0<>1a5860f55ff18d1df07e0ce9a6089950<>res://.godot/imported/Bat-all-animations-96x96-each row is a different animation-from top to bottom-Idle-walk-walk to atk transition-atk instance-atk-hurt-death.png-0e5b21553c91fd1debee9c8964eba593.ctex::
+player.gd::GDScript/GDScript::7431420124502898229::1746804658::0::1::::<>CharacterBody2D<><>0<>0<><>::
+player.tscn::PackedScene::2492174713629061692::1746818729::0::1::::<><><>0<>0<><>::uid://b4j2ae7llyadg::::res://player/Bat-all-animations-96x96-each row is a different animation-from top to bottom-Idle-walk-walk to atk transition-atk instance-atk-hurt-death.png<>uid://dd43nyxjr0nrh::::res://player/player.gd<>uid://dhlva6g4n8q5t::::res://bucket.tscn
+::res://ui/::1746818729
+multiplayer_ui.gd::GDScript::8797195573229315478::1746818692::0::1::::<>Control<><>0<>0<><>::
+multiplayer_ui.tscn::PackedScene::2308227407833931137::1746818729::0::1::::<><><>0<>0<><>::uid://dxlor43h11dji::::res://ui/multiplayer_ui.gd
+::res://world/::1746818729
+world.gd::GDScript/GDScript::4539751142501563436::1746792813::0::1::::<>Node2D<><>0<>0<><>::
+world.tscn::PackedScene::4347684655174229700::1746818729::0::1::::<><><>0<>0<><>::uid://bw7v4v20g3ml5::::res://icon.svg<>uid://b5xdbj8s87rrw::::res://world/world.gd
