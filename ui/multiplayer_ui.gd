@@ -28,7 +28,7 @@ func _ready():
 	#multiplayer.connected_to_server.connect(self._connected_ok)
 	#multiplayer.connection_failed.connect(self._connected_fail)
 	#multiplayer.server_disconnected.connect(self._server_disconnected)
-	#Steam.lobby_joined.connect(_on_lobby_joined.bind())
+	Steam.lobby_joined.connect(_on_lobby_joined.bind())
 	Steam.lobby_created.connect(_on_lobby_created.bind())
 
 func _process(delta):
@@ -59,40 +59,39 @@ func _on_lobby_created(_connect: int, _lobby_id: int):
 		print("Error on create lobby!")
 
 
-func _on_steam_join(lobby_id:int): # no adding of player here, but when? = when the host is created, he setupts the signal for when other peers join.
-	steam_peer.connect_lobby(lobby_id)
-	multiplayer.multiplayer_peer = steam_peer
-	
-	multiplayer_ui.hide()
+
+@onready var steam_id_field: TextEdit = $SteamStuff/SteamIdField
+func _on_join_steam_pressed() -> void:
+	Steam.joinLobby(int(steam_id_field.text))
 
 
 
+func _on_lobby_joined(lobby: int, permissions: int, locked: bool, response: int):
+	if response == 1:
+		var id = Steam.getLobbyOwner(lobby)
+		if id != Steam.getSteamID():
+			steam_peer.create_client(id, 0)
+			multiplayer.set_multiplayer_peer(steam_peer)
+			multiplayer_ui.hide()
+	else:
+		var FAIL_REASON: String # Get the failure reason
+		match response:
+			2:  FAIL_REASON = "This lobby no longer exists."
+			3:  FAIL_REASON = "You don't have permission to join this lobby."
+			4:  FAIL_REASON = "The lobby is now full."
+			5:  FAIL_REASON = "Uh... something unexpected happened!"
+			6:  FAIL_REASON = "You are banned from this lobby."
+			7:  FAIL_REASON = "You cannot join due to having a limited account."
+			8:  FAIL_REASON = "This lobby is locked or disabled."
+			9:  FAIL_REASON = "This lobby is community locked."
+			10: FAIL_REASON = "A user in the lobby has blocked you from joining."
+			11: FAIL_REASON = "A user you have blocked is in the lobby."
+		print(FAIL_REASON)
 
-
-func _on_lobby_match_list(these_lobbies: Array) -> void:
-	
-	if lobby_list.get_child_count() > 0:
-		for n in lobby_list.get_children():
-			n.queue_free()
-	
-	for this_lobby in these_lobbies:
-		
-		var lobby_name: String = Steam.getLobbyData(this_lobby, "name")
-		var lobby_mode: String = Steam.getLobbyData(this_lobby, "mode")
-		var lobby_num_members: int = Steam.getNumLobbyMembers(this_lobby)
-		
-		var lobby_button: Button = Button.new()
-		lobby_button.set_text("Lobby %s: %s [%s] - %s Player(s)" % [this_lobby, lobby_name, lobby_mode, lobby_num_members])
-		lobby_button.set_size(Vector2(400/4, 25/4))
-		lobby_button.set_name("lobby_%s" % this_lobby)
-		lobby_button.connect("pressed", Callable(self, "_on_steam_join").bind(this_lobby))
-
-		lobby_list.add_child(lobby_button)
 
 
 
 @onready var world_spawner: MultiplayerSpawner = $"../WorldSpawner"
-
 
 
 
@@ -131,3 +130,30 @@ func add_player(p_id): # just done it here instead of giving the player spawner 
 	#Steam.addRequestLobbyListDistanceFilter(Steam.LOBBY_DISTANCE_FILTER_WORLDWIDE)
 	#print("305 Mr. Worldwide Requesting a lobby list")
 	#Steam.requestLobbyList()
+
+#func _on_steam_join(lobby_id:int): # no adding of player here, but when? = when the host is created, he setupts the signal for when other peers join.
+	#steam_peer.connect_lobby(lobby_id)
+	#multiplayer.multiplayer_peer = steam_peer
+	#
+	#multiplayer_ui.hide()
+
+
+#func _on_lobby_match_list(these_lobbies: Array) -> void:
+	#
+	#if lobby_list.get_child_count() > 0:
+		#for n in lobby_list.get_children():
+			#n.queue_free()
+	#
+	#for this_lobby in these_lobbies:
+		#
+		#var lobby_name: String = Steam.getLobbyData(this_lobby, "name")
+		#var lobby_mode: String = Steam.getLobbyData(this_lobby, "mode")
+		#var lobby_num_members: int = Steam.getNumLobbyMembers(this_lobby)
+		#
+		#var lobby_button: Button = Button.new()
+		#lobby_button.set_text("Lobby %s: %s [%s] - %s Player(s)" % [this_lobby, lobby_name, lobby_mode, lobby_num_members])
+		#lobby_button.set_size(Vector2(400/4, 25/4))
+		#lobby_button.set_name("lobby_%s" % this_lobby)
+		#lobby_button.connect("pressed", Callable(self, "_on_steam_join").bind(this_lobby))
+#
+		#lobby_list.add_child(lobby_button)
