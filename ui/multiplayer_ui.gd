@@ -33,16 +33,16 @@ func _ready():
 
 func _process(delta):
 	Steam.run_callbacks()
-
+@onready var world_spawner: MultiplayerSpawner = $"../WorldSpawner"
 func _on_host_steam_pressed() -> void:
 	Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, MAX_PEERS)
 	multiplayer_ui.hide()
 	
-	multiplayer.peer_connected.connect(
-		func(p_id):
-			print(str(p_id) + "has joined the LAN game")
-			add_player(p_id)
-	)
+	#multiplayer.peer_connected.connect(
+		#func(p_id):
+			#print(str(p_id) + "has joined the LAN game")
+			#add_player(p_id)
+	#) THIS IS NOT FIRING WITH EXPRESSO
 	
 	world_spawner.spawn_world()
 	add_player(multiplayer.get_unique_id()) # always host but whatever
@@ -72,9 +72,12 @@ func _on_lobby_joined(lobby: int, permissions: int, locked: bool, response: int)
 	if response == 1:
 		var id = Steam.getLobbyOwner(lobby)
 		if id != Steam.getSteamID():
+			print("Creating client because not looby owner.")
 			steam_peer.create_client(id, 0)
 			multiplayer.set_multiplayer_peer(steam_peer)
 			multiplayer_ui.hide()
+			
+			add_player(multiplayer.get_unique_id()).rpc()
 	else:
 		var FAIL_REASON: String # Get the failure reason
 		match response:
@@ -91,9 +94,6 @@ func _on_lobby_joined(lobby: int, permissions: int, locked: bool, response: int)
 		print(FAIL_REASON)
 
 
-
-
-@onready var world_spawner: MultiplayerSpawner = $"../WorldSpawner"
 
 
 
@@ -122,6 +122,7 @@ func _on_join_lan_pressed() -> void:
 	
 	multiplayer_ui.hide()
 
+@rpc("call_local")
 func add_player(p_id): # just done it here instead of giving the player spawner a dedicated script. Might move this in the future.
 	var player = PLAYER.instantiate()
 	player.name = str(p_id)
