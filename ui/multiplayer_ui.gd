@@ -23,9 +23,9 @@ var player_name = "The Warrior"
 
 func _ready():
 	Steam.steamInit(480)
-	#multiplayer.peer_connected.connect(self._player_connected)
+	multiplayer.peer_connected.connect(self._player_connected)
 	#multiplayer.peer_disconnected.connect(self._player_disconnected)
-	#multiplayer.connected_to_server.connect(self._connected_ok)
+	multiplayer.connected_to_server.connect(self._connected_ok)
 	#multiplayer.connection_failed.connect(self._connected_fail)
 	#multiplayer.server_disconnected.connect(self._server_disconnected)
 	Steam.lobby_joined.connect(_on_lobby_joined.bind())
@@ -77,7 +77,7 @@ func _on_lobby_joined(lobby: int, permissions: int, locked: bool, response: int)
 			multiplayer.set_multiplayer_peer(steam_peer)
 			multiplayer_ui.hide()
 			
-			add_player(multiplayer.get_unique_id()).rpc()
+			add_player.rpc_id(multiplayer.get_unique_id())
 	else:
 		var FAIL_REASON: String # Get the failure reason
 		match response:
@@ -94,8 +94,11 @@ func _on_lobby_joined(lobby: int, permissions: int, locked: bool, response: int)
 		print(FAIL_REASON)
 
 
+func _player_connected(id):
+	print("player connected:" + str(id))
 
-
+func _connected_ok():
+	print("connection ok")
 
 func _on_host_lan_pressed() -> void:
 	var port = text_edit_port_lan.text
