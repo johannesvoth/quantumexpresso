@@ -3,4 +3,4 @@ res://player/player.tscn
 res://ui/multiplayer_ui.tscn
 res://world/world.tscn
 res://bucket.tscn
-res://game.gd
+res://ui/multiplayer_ui.gd

@@ -1,18 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://b1mx35emj5usl"]
+[gd_scene load_steps=4 format=3 uid="uid://b1mx35emj5usl"]
 
 [ext_resource type="Script" uid="uid://dox5423r4l3pb" path="res://other/steam.gd" id="1_80nbo"]
-[ext_resource type="Script" uid="uid://ckc1j5hy6m2gs" path="res://game.gd" id="1_e2o6t"]
 [ext_resource type="PackedScene" uid="uid://75efyn1wxwpt" path="res://ui/multiplayer_ui.tscn" id="3_feb5d"]
 [ext_resource type="Script" uid="uid://bol1tu2w36k4e" path="res://world_spawner.gd" id="4_fc0e3"]
 
 [node name="Game" type="Node2D"]
-script = ExtResource("1_e2o6t")
 
 [node name="Steam" type="Node" parent="."]
 script = ExtResource("1_80nbo")
 
 [node name="MultiplayerUI" parent="." instance=ExtResource("3_feb5d")]
-visible = false
 
 [node name="WorldSlot" type="Node" parent="."]
 
@@ -30,30 +27,3 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-
-[node name="HostSteamGame" type="Button" parent="ExpressoUI"]
-layout_mode = 0
-offset_left = 356.0
-offset_top = 31.0
-offset_right = 442.0
-offset_bottom = 78.0
-text = "hostSteam"
-
-[node name="SteamIdField" type="TextEdit" parent="ExpressoUI"]
-layout_mode = 0
-offset_left = 237.0
-offset_top = 178.0
-offset_right = 553.0
-offset_bottom = 234.0
-placeholder_text = "1383685...."
-
-[node name="JoinSteamGame" type="Button" parent="ExpressoUI"]
-layout_mode = 0
-offset_left = 349.0
-offset_top = 244.0
-offset_right = 481.0
-offset_bottom = 275.0
-text = "JoinSteamGame via ID"
-
-[connection signal="pressed" from="ExpressoUI/HostSteamGame" to="." method="_on_host_steam_game_pressed"]
-[connection signal="pressed" from="ExpressoUI/JoinSteamGame" to="." method="_on_join_steam_game_pressed"]
