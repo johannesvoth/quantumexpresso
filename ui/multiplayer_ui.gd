@@ -77,7 +77,7 @@ func _on_lobby_joined(lobby: int, permissions: int, locked: bool, response: int)
 			multiplayer.set_multiplayer_peer(steam_peer)
 			multiplayer_ui.hide()
 			
-			add_player.rpc_id(multiplayer.get_unique_id())
+			
 	else:
 		var FAIL_REASON: String # Get the failure reason
 		match response:
@@ -96,9 +96,11 @@ func _on_lobby_joined(lobby: int, permissions: int, locked: bool, response: int)
 
 func _player_connected(id):
 	print("player connected:" + str(id))
+	add_player.rpc_id(multiplayer.get_unique_id())
 
 func _connected_ok():
 	print("connection ok")
+	add_player.rpc_id(multiplayer.get_unique_id())
 
 func _on_host_lan_pressed() -> void:
 	var port = text_edit_port_lan.text
