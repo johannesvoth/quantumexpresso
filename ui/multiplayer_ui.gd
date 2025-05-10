@@ -62,11 +62,13 @@ func _on_lobby_created(_connect: int, _lobby_id: int):
 
 @onready var steam_id_field: TextEdit = $SteamStuff/SteamIdField
 func _on_join_steam_pressed() -> void:
+	print("on join button pressed")
 	Steam.joinLobby(int(steam_id_field.text))
 
 
 
 func _on_lobby_joined(lobby: int, permissions: int, locked: bool, response: int):
+	print("LOOBY JOINED CALLBACK")
 	if response == 1:
 		var id = Steam.getLobbyOwner(lobby)
 		if id != Steam.getSteamID():
